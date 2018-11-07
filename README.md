@@ -1,8 +1,8 @@
-# FutuQuant - 富途量化投资平台 (Futu Quant Trading API)
+# Futu-API - 富途量化交易接口 (Futu Quant Trading API)
 
 ### 简介
 
-[​**FutuQuant**](https://futunnopen.github.io/futuquant/intro/intro.html)开源项目可以满足使用[**富途Open API**](https://www.futunn.com/)软件进行量化投资的需求, 提供包括Python接口、Json和Protobuf接口的行情及交易的API。
+[​**Futu-API**](https://futunnopen.github.io/futuquant/intro/intro.html)开源项目可以满足使用[**富途Open API**](https://www.futunn.com/)软件进行量化投资的需求, 提供包括Python接口、Json和Protobuf接口的行情及交易的API。
 
 - [官方在线文档](https://futunnopen.github.io/futuquant/intro/intro.html)
 
@@ -10,7 +10,7 @@
 
 ### 安装
 ```
-pip install futuquant
+pip install futu-api
 ```
 
 ###### 注: 本API当前仅支持Python3, 推荐安装anaconda3环境，方便快捷。
@@ -20,8 +20,8 @@ pip install futuquant
 ### 快速上手
 ```
 
-# 导入futuquant api
-import futuquant as ft
+# futu-api
+import futu as ft
 
 # 实例化行情上下文对象
 quote_ctx = ft.OpenQuoteContext(host="127.0.0.1", port=11111)
@@ -82,7 +82,31 @@ trade_hk_ctx.close()
 
 ### 组织结构
 
-![image](https://github.com/FutunnOpen/futuquant/blob/master/docs/source/_static/Structure.png)
+```
+futu
+│  setup.py
+│  
+├─docs
+├─futu
+│  │  VERSION.txt
+│  │  __init__.py
+│  │  
+│  ├─common
+│  ├─examples 
+│  │  │  macd.py
+│  │  │  stocksell.py
+│  │  │  
+│  │  └─tiny_quant
+│  │      ├─demo
+│  │      │  ├─tq_macd 
+│  │      │  ├─tq_mean_line
+│  │      │  └─tq_sample
+│  │      └─tiny_quant_frame
+│  │          └─event
+│  ├─quote 
+│  └─trade
+└─setup
+```
 
 ​	最新版本在master分支。之前各版本在其他分支上。
 
