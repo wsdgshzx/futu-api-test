@@ -456,7 +456,7 @@ get_market_snapshot
  wrt_implied_volatility          float          窝轮引伸波幅
  wrt_premium                     float          窝轮溢价
  lot_size                        int            每手股数
- price_spread                    float          当前摆盘价差亦即摆盘数据的买档或卖档的相邻档位的报价差
+ price_spread                    float          当前向上的摆盘价差,亦即摆盘数据的卖档的相邻档位的报价差
  option_valid                    bool           是否是期权（为true时以下期权相关的字段才有合法数值）
  option_type                     str            期权类型，参见 OptionType_
  strike_time                     str            期权行权日（美股默认是美东时间，港股A股默认是北京时间）
@@ -502,7 +502,7 @@ is_blank                bool           数据状态；正常数据为False，伪
 opened_mins             int            零点到当前多少分钟
 cur_price               float          当前价格
 last_close              float          昨天收盘的价格
-avg_price               float          平均价格
+avg_price               float          平均价格（对于期权，该字段为None）
 volume                  float          成交量
 turnover                float          成交金额
 =====================   ===========   ===================================================================
@@ -826,7 +826,7 @@ get_stock_quote
         amplitude               int            振幅
         suspension              bool           是否停牌(True表示停牌)
         listing_date            str            上市日期 (yyyy-MM-dd)
-        price_spread            float          当前价差，亦即摆盘数据的买档或卖档的相邻档位的报价差
+        price_spread            float          当前向上的价差，亦即摆盘数据的卖档的相邻档位的报价差
 		dark_status             str            暗盘交易状态，见 DarkStatus_
         strike_price            float          行权价
         contract_size           int            每份合约数
@@ -1152,19 +1152,20 @@ get_order_detail
  :param code: 股票代码,例如：'SZ.000001'
  :return: (ret, data)
 
- ret == RET_OK data为1个dict，包含以下数据::
+          ret == RET_OK data为1个dict，包含以下数据::
 		
-  {"code": 股票代码,
-  "Ask": [ order_num, [order_volume1, order_volume2] ]
-  "Bid": [ order_num, [order_volume1, order_volume2] ]
-  }
+           {
+            "code": 股票代码,
+            "Ask": [ order_num, [order_volume1, order_volume2, ...] ]
+            "Bid": [ order_num, [order_volume1, order_volume2, ...] ]
+           }
 
- | "Ask": 卖盘 
- | "Bid": 买盘
- | order_num：委托订单数量
- | order_volume是每笔委托的委托量，当前最多返回前50笔委托的委托数量。即order_num有可能多于后面的order_volume
+          | "Ask": 卖盘 
+          | "Bid": 买盘
+          | order_num：委托订单数量
+          | order_volume：是每笔委托的委托量，当前最多返回前50笔委托的委托数量。即order_num有可能多于后面的order_volume
 
- ret != RET_OK data为错误字符串
+          ret != RET_OK data为错误字符串
         
  :Example:
 
@@ -1172,7 +1173,7 @@ get_order_detail
 
     from futuquant import *
     quote_ctx = OpenQuoteContext(host='127.0.0.1', port=11111)
-	quote_ctx.subscribe('SZ.000001', SubType.ORDER_DETAIL)
+    quote_ctx.subscribe('SZ.000001', SubType.ORDER_DETAIL)
     print(quote_ctx.get_order_detail('SZ.000001')
     quote_ctx.close()
 

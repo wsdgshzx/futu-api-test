@@ -606,7 +606,7 @@ BasicQot - 基础报价
 		required Security security = 1; //股票
 		required bool isSuspended = 2; //是否停牌
 		required string listTime = 3; //上市日期字符串
-		required double priceSpread = 4; //价差
+		required double priceSpread = 4; //向上价差
 		required string updateTime = 5; //更新时间字符串
 		required double highPrice = 6; //最高价
 		required double openPrice = 7; //开盘价
